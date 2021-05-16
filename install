@@ -44,3 +44,5 @@ function doSync() {
     syncFile ".gitconfig"
     return 0
 }
+
+doSync
