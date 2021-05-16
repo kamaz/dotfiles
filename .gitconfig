@@ -1,0 +1,28 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Kamaz
+	email = kamaz@xsimple.org
+[core]
+	editor = nvim
+	ignorecase = false
+[alias]
+	st = status
+	ci = commit
+	br = branch
+	co = checkout
+	amend = commit --amend
+	last = log -1 HEAD
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[diff]
+	tool = nvim
+[merge]
+	tool = nvim
+[difftool]
+	prompt = false
+[mergetool "nvim"]
+    # cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
+    cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
