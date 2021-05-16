@@ -1,8 +1,16 @@
 #!/bin/bash
+
+set -e
+
+cd "$(dirname "${BASH_SOURCE}")"
+
+CWD=$(pwd)
+
 #
 # https://docs.github.com/en/github/developing-online-with-codespaces/personalizing-codespaces-for-your-account
 #
 unameOut="$(uname -s)"
+
 case "${unameOut}" in
     Linux*)     machine=Linux;;
     Darwin*)    machine=Mac;;
@@ -12,6 +20,7 @@ case "${unameOut}" in
 esac
 
 echo "OS: ${machine}"
+
 if [ "${machine}" = "Mac" ]; then 
   brew tap homebrew/cask-fonts
   brew cask install font-hack-nerd-font
@@ -20,4 +29,18 @@ if [ "${machine}" = "Mac" ]; then
   npm i -g bash-language-server serve
 fi
 
+printf "# Syncing to home folder...\n"
+
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+function syncFile() {
+    local sourceFile="$1"
+    ln -sf "$CWD/${sourceFile}" "$HOME/${sourceFile}"
+}
+
+
+function doSync() {
+    syncFile ".tmux.conf"
+    syncFile ".gitconfig"
+    return 0
+}
