@@ -1,48 +1,23 @@
-#!/bin/bash
+#!/bin/sh
 
-set -e
+set -e # -e: exit on error
 
-cd "$(dirname "${BASH_SOURCE}")"
-
-CWD=$(pwd)
-
-#
-# https://docs.github.com/en/github/developing-online-with-codespaces/personalizing-codespaces-for-your-account
-#
-unameOut="$(uname -s)"
-
-case "${unameOut}" in
-    Linux*)     machine=Linux;;
-    Darwin*)    machine=Mac;;
-    CYGWIN*)    machine=Cygwin;;
-    MINGW*)     machine=MinGw;;
-    *)          machine="UNKNOWN:${unameOut}"
-esac
-
-echo "OS: ${machine}"
-
-if [ "${machine}" = "Mac" ]; then 
-  brew tap homebrew/cask-fonts
-  brew cask install font-hack-nerd-font
-  brew install hashicorp/tap/terraform-ls
-  brew install hub
-  npm i -g bash-language-server serve
+if [ ! "$(command -v chezmoi)" ]; then
+  bin_dir="$HOME/.local/bin"
+  chezmoi="$bin_dir/chezmoi"
+  if [ "$(command -v curl)" ]; then
+    sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b "$bin_dir"
+  elif [ "$(command -v wget)" ]; then
+    sh -c "$(wget -qO- https://git.io/chezmoi)" -- -b "$bin_dir"
+  else
+    echo "To install chezmoi, you must have curl or wget installed." >&2
+    exit 1
+  fi
+else
+  chezmoi=chezmoi
 fi
 
-printf "# Syncing to home folder...\n"
-
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-
-function syncFile() {
-    local sourceFile="$1"
-    ln -sf "$CWD/${sourceFile}" "$HOME/${sourceFile}"
-}
-
-
-function doSync() {
-    syncFile ".tmux.conf"
-    syncFile ".gitconfig"
-    return 0
-}
-
-doSync
+# POSIX way to get script's dir: https://stackoverflow.com/a/29834779/12156188
+script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
+# exec: replace current process with chezmoi init
+exec "$chezmoi" init --apply "--source=$script_dir"
