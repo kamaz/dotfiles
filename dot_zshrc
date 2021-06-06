@@ -72,7 +72,8 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git ssh-agent)
+# plugins=(git ssh-agent)
+plugins=(git)
 
 # zstyle :omz:plugins:ssh-agent identities id_rsa github_id_rsa 
 
@@ -106,19 +107,19 @@ source $ZSH/oh-my-zsh.sh
 
 # source /usr/local/share/antigen/antigen.zsh
 
-antigen use oh-my-zsh
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-completions
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle zsh-users/zsh-docker
-antigen bundle starcraftman/zsh-git-prompt
+# antigen use oh-my-zsh
+# antigen bundle zsh-users/zsh-syntax-highlighting
+# antigen bundle zsh-users/zsh-completions
+# antigen bundle zsh-users/zsh-autosuggestions
+# antigen bundle zsh-users/zsh-docker
+# antigen bundle starcraftman/zsh-git-prompt
 
-antigen apply
+# antigen apply
 
 AUTOENV_FILE_ENTER=.envrc
 
 source $HOME/.antigen/bundles/starcraftman/zsh-git-prompt/zshrc.sh
-PROMPT='%B%~%b $(git_super_status) %# '
+# PROMPT='%B%~%b $(git_super_status) %# '
 ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%}%{●%G%}"
 ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg[red]%}%{✚%G%}"
 
