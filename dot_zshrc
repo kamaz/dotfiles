@@ -118,7 +118,7 @@ source $ZSH/oh-my-zsh.sh
 
 AUTOENV_FILE_ENTER=.envrc
 
-source $HOME/.antigen/bundles/starcraftman/zsh-git-prompt/zshrc.sh
+# source $HOME/.antigen/bundles/starcraftman/zsh-git-prompt/zshrc.sh
 # PROMPT='%B%~%b $(git_super_status) %# '
 ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%}%{●%G%}"
 ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg[red]%}%{✚%G%}"
