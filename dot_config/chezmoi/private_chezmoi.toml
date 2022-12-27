@@ -1,0 +1,10 @@
+sourceDir = "~/.local/share/chezmoi"
+
+[data]
+  name = "Kamaz"
+  codespaces = false
+  email = "kamaz@xsimple.org"
+
+[merge]
+    command = "nvim"
+    args = ["-d", "{{ .Destination }}", "{{ .Source }}", "{{ .Target }}"]
