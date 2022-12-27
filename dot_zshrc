@@ -190,3 +190,11 @@ eval "$(direnv hook zsh)"
 if [ -f ~/.config/tabtab/zsh/__tabtab.zsh ]; then 
   source ~/.config/tabtab/zsh/__tabtab.zsh || true
 fi
+
+# 
+# pnpm
+#
+if [ -d "$HOME/Library/pnpm" ]; then 
+  export PNPM_HOME="$HOME/Library/pnpm" 
+  export PATH="$PNPM_HOME:$PATH"
+fi
