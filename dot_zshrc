@@ -115,6 +115,11 @@ if [ -f /opt/homebrew/etc/profile.d/z.sh ]; then
   source /opt/homebrew/etc/profile.d/z.sh
 fi
 
+# brew
+if [ -f /opt/homebrew/etc/profile.d/z.sh ]; then
+  source /opt/homebrew/etc/profile.d/z.sh
+fi
+
 if [ -f $HOME/.antigen/bundles/starcraftman/zsh-git-prompt/zshrc.sh ]; then
   source $HOME/.antigen/bundles/starcraftman/zsh-git-prompt/zshrc.sh
   PROMPT='%B%~%b $(git_super_status) %# '
@@ -174,7 +179,9 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 #
 # Rust
 #
-source $HOME/.cargo/env
+if [ -f $HOME/.cargo/env ]; then
+  source $HOME/.cargo/env
+fi
 
 #
 # direnv
