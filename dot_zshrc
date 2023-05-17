@@ -116,8 +116,8 @@ if [ -f /opt/homebrew/etc/profile.d/z.sh ]; then
 fi
 
 # brew
-if [ -f /opt/homebrew/etc/profile.d/z.sh ]; then
-  source /opt/homebrew/etc/profile.d/z.sh
+if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 if [ -f $HOME/.antigen/bundles/starcraftman/zsh-git-prompt/zshrc.sh ]; then
