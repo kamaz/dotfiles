@@ -13,7 +13,7 @@ alias g="git"
 
 alias vi=nvim
 alias vim=nvim
-alias ls=exa
+alias ls=eza
 
 alias grep=rg
 
