@@ -6,7 +6,4 @@ end
 local setup = {
 
 }
-
 octo.setup(setup)
-
-

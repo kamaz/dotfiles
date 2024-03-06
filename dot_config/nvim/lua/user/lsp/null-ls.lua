@@ -22,21 +22,31 @@ null_ls.setup {
     formatting.stylua,
     formatting.google_java_format,
     formatting.terraform_fmt,
+    formatting.gofumpt,
+    formatting.golines,
     formatting.goimports,
     diagnostics.flake8,
+    diagnostics.mypy,
+    -- diagnostics.mypy.with({
+    --   extra_args = function()
+    --     local virtual = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX") or "/usr"
+    --     return { "--python-executable", virtual .. "/bin/python3" }
+    --   end,
+    -- }),
+    diagnostics.ruff,
   },
   on_attach = function(client, bufnr)
-        if client.supports_method("textDocument/formatting") then
-            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-            vim.api.nvim_create_autocmd("BufWritePre", {
-                group = augroup,
-                buffer = bufnr,
-                callback = function()
-                    -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-                   vim.lsp.buf.format({ bufnr = bufnr })
-                    -- vim.lsp.buf.formatting_sync()
-                end,
-            })
-        end
-    end,
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+          vim.lsp.buf.format({ bufnr = bufnr })
+          -- vim.lsp.buf.formatting_sync()
+        end,
+      })
+    end
+  end,
 }

@@ -45,8 +45,8 @@ packer.init {
 return packer.startup(function(use)
   -- My plugins here
   use { "wbthomason/packer.nvim" } -- Have packer manage itself
-  use { "nvim-lua/plenary.nvim" } -- Useful lua functions used by lots of plugins
-  use { "windwp/nvim-autopairs" } -- Autopairs, integrates with both cmp and treesitter
+  use { "nvim-lua/plenary.nvim" }  -- Useful lua functions used by lots of plugins
+  use { "windwp/nvim-autopairs" }  -- Autopairs, integrates with both cmp and treesitter
   use { "numToStr/Comment.nvim" }
   use { "JoosepAlviste/nvim-ts-context-commentstring" }
   use { "kyazdani42/nvim-web-devicons" }
@@ -57,7 +57,7 @@ return packer.startup(function(use)
   use { "akinsho/toggleterm.nvim" }
   use { "ahmedkhalf/project.nvim" }
   use { "lewis6991/impatient.nvim" }
-  use { "lukas-reineke/indent-blankline.nvim" }
+  use { "lukas-reineke/indent-blankline.nvim", main = "ibl" }
   use { "goolord/alpha-nvim" }
 
   -- Colorschemes
@@ -65,29 +65,29 @@ return packer.startup(function(use)
   use { "lunarvim/darkplus.nvim" }
 
   -- cmp plugins
-  use { "hrsh7th/nvim-cmp" } -- The completion plugin
-  use { "hrsh7th/cmp-buffer" } -- buffer completions
-  use { "hrsh7th/cmp-path" } -- path completions
+  use { "hrsh7th/nvim-cmp" }         -- The completion plugin
+  use { "hrsh7th/cmp-buffer" }       -- buffer completions
+  use { "hrsh7th/cmp-path" }         -- path completions
   use { "saadparwaiz1/cmp_luasnip" } -- snippet completions
   use { "hrsh7th/cmp-nvim-lsp" }
   use { "hrsh7th/cmp-nvim-lua" }
 
   -- snippets
-  use { "L3MON4D3/LuaSnip" } --snippet engine
+  use { "L3MON4D3/LuaSnip" }             --snippet engine
   use { "rafamadriz/friendly-snippets" } -- a bunch of snippets to use
 
   -- LSP
   -- use { "williamboman/nvim-lsp-installer" } -- simple to use language server installer
   use { "neovim/nvim-lspconfig" } -- enable LSP
-  use { "williamboman/mason.nvim"}
+  use { "williamboman/mason.nvim" }
   use { "williamboman/mason-lspconfig.nvim" }
   use { "jose-elias-alvarez/null-ls.nvim" } -- for formatters and linters
   use { "RRethy/vim-illuminate" }
 
   -- Telescope
-  use { 
+  use {
     "nvim-telescope/telescope.nvim",
-  requires = {
+    requires = {
       { "nvim-lua/popup.nvim" },
       { "nvim-lua/plenary.nvim" },
       { "nvim-telescope/telescope-fzy-native.nvim" },
@@ -106,7 +106,7 @@ return packer.startup(function(use)
   -- Treesitter
   use { "nvim-treesitter/nvim-treesitter" }
   use 'nvim-treesitter/playground'
-   -- Additional text objects via treesitter
+  -- Additional text objects via treesitter
   use { 'nvim-treesitter/nvim-treesitter-textobjects', after = 'nvim-treesitter' }
 
 
@@ -115,41 +115,61 @@ return packer.startup(function(use)
   use { "lewis6991/gitsigns.nvim" }
 
   -- DAP
-  use { "mfussenegger/nvim-dap" }
+  use {
+    "mfussenegger/nvim-dap",
+    init = function()
+      print("init nvim dap")
+      -- require("core.utils").load_mappings("dap")
+    end,
+  }
+
   use { "rcarriga/nvim-dap-ui" }
   use { "ravenxrz/DAPInstall.nvim" }
+
+  use {
+    "leoluz/nvim-dap-go",
+    ft = "go",
+    dependencies = "mfussenegger/nvim-dap",
+    config = function(_, opts)
+      require("dap-go").setup(opts)
+      require("core.utils").load_mappings("dap_go")
+    end,
+  }
 
   -- undo tree
   use 'mbbill/undotree'
 
   -- filetypes
-  use "nathom/filetype.nvim"
+  -- use "nathom/filetype.nvim"
 
   -- surround
   use "kylechui/nvim-surround"
 
   -- Copilot
   use { "zbirenbaum/copilot.lua",
-		event = { "VimEnter" },
-		config = function()
-			vim.defer_fn(function()
-				print("copilot enter")
-				require("copilot").setup()
-			end, 100)
-		end,
-	}
+    event = { "VimEnter" },
+    config = function()
+      vim.defer_fn(function()
+        print("copilot enter")
+        require("copilot").setup({
+          suggestion = { enabled = false },
+          panel = { enabled = false },
+        })
+      end, 100)
+    end,
+  }
 
-	use { "zbirenbaum/copilot-cmp",
-		after = {
-			"copilot.lua",
-			"nvim-cmp",
-		},
-		config = function()
-			require("copilot_cmp").setup {
-				method = "getCompletionsCycling",
-			}
-		end,
-	}
+  use { "zbirenbaum/copilot-cmp",
+    after = {
+      "copilot.lua",
+      "nvim-cmp",
+    },
+    config = function()
+      require("copilot_cmp").setup {
+        method = "getCompletionsCycling",
+      }
+    end,
+  }
 
   -- Which-key
   use { "folke/which-key.nvim" }
@@ -159,6 +179,9 @@ return packer.startup(function(use)
 
   -- Octo GH integration
   use { "pwntester/octo.nvim" }
+
+  -- Tmux integration
+  use { "christoomey/vim-tmux-navigator" }
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if PACKER_BOOTSTRAP then

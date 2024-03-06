@@ -73,6 +73,7 @@ keymap('n', '<leader>sp', ":Telescope projects<CR>", { desc = '[S]earch [p]rojec
 
 -- Git
 keymap("n", "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", opts)
+keymap("n", "<leader>rt", "<cmd>lua _RUN_TEST()<CR>", opts)
 
 -- Comment
 keymap("n", "<leader>/", "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
